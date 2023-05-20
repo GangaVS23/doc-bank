@@ -39,7 +39,7 @@ ImageView afamily,doc;
     @Override
     public void onBackPressed() {
         AlertDialog.Builder alertbox = new AlertDialog.Builder(MainHome.this);
-        alertbox.setMessage("Do you really wants to logout from this app?");
+        alertbox.setMessage("Do you want to logout from this app?");
         alertbox.setTitle("Logout!!");
 
         alertbox.setPositiveButton("Logout", new DialogInterface.OnClickListener() {

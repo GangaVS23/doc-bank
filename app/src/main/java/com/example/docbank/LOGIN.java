@@ -53,11 +53,11 @@ public class LOGIN extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (user.getText().toString().isEmpty()) {
-                    user.setError("please enter your username");
+                    user.setError("Please enter your Username");
 
                 }
                 if (pass.getText().toString().isEmpty()) {
-                    pass.setError("please enter your Password");
+                    pass.setError("Please enter your Password");
 
                 } else {
                     final ProgressDialog progressDoalog = new ProgressDialog(LOGIN.this);
@@ -117,7 +117,7 @@ public class LOGIN extends AppCompatActivity {
                                     public void onFailure(@NonNull Exception e) {
                                         progressDoalog.dismiss();
 
-                                        Toast.makeText(LOGIN.this, "DB error", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LOGIN.this, "Database error", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     } catch (Exception e) {

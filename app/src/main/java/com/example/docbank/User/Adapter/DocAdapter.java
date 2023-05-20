@@ -132,8 +132,7 @@ public class DocAdapter extends RecyclerView.Adapter<DocAdapter.MyViewHolder> im
 
     private void Alert(String encDoc, String docType, String downloadUrl) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(a);
-        alertDialogBuilder.setMessage("what to do?");
-        alertDialogBuilder.setPositiveButton("Decrypt Document",
+        alertDialogBuilder.setPositiveButton("Open document",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {

@@ -199,7 +199,7 @@ Spinner sp;
                     public void onSuccess(DocumentReference documentReference) {
 
                         progressDoalog.dismiss();
-                        Toast.makeText(UploadDocument.this, "Document Encrypted successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UploadDocument.this, "Document saved successfully", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getApplicationContext(), UploadDocument.class));
                         finish();
                     }

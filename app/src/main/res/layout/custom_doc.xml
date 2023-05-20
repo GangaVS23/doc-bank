@@ -100,7 +100,7 @@
                     android:textSize="15sp"
                     android:inputType="numberPassword"
                     android:maxLength="4"
-                    android:hint="4 digit Password for decrypt"
+                    android:hint="Enter PIN to open"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -134,7 +134,6 @@
                     android:layout_height="wrap_content"
                     android:text="Forgot\npassword"
                     android:gravity="center"
-                    android:drawableLeft="@drawable/ic_file_upload_black_24dp"
                     android:textColor="#000"
                     android:textStyle="bold"/>
                 <Button
@@ -142,7 +141,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/btnpay"
                     android:layout_marginTop="5dp"
-                    android:text="Decrypt"/>
+                    android:text="Open"/>
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

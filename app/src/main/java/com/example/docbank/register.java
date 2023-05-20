@@ -51,8 +51,7 @@ public class register extends AppCompatActivity {
                 if (email.getText().toString().matches(Validations.email) && s.length() > 0) {
 
                 } else {
-                    //Toast.makeText(getApplicationContext(),"Invalid email address",Toast.LENGTH_SHORT).show();
-                    email.setError("invalid mail");
+                    email.setError("Invalid email id");
                 }
             }
 
@@ -69,13 +68,13 @@ public class register extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (name.getText().toString().isEmpty() || !name.getText().toString().matches(Validations.text)) {
-                    name.setError("please enter your name");
+                    name.setError("Please enter your name");
                 } else if (mobile.getText().toString().isEmpty() || !mobile.getText().toString().matches(Validations.mobile)) {
-                    mobile.setError("please enter a valid mobile number");
+                    mobile.setError("Please enter a valid mobile number");
                 } else if (email.getText().toString().isEmpty() || !email.getText().toString().matches(Validations.email)) {
-                    email.setError("please enter a valid email address");
+                    email.setError("Please enter a valid email address");
                 } else if (password.getText().toString().isEmpty()) {
-                    password.setError("please enter your password");
+                    password.setError("Please enter your password");
                 } else {
 
                     submitForm();
@@ -102,10 +101,10 @@ public class register extends AppCompatActivity {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             if (queryDocumentSnapshots.getDocuments().isEmpty()) {
-                                addBoyToDataBase();
+                                addUserToDataBase();
                             } else {
                                 progressDoalog.dismiss();
-                                Toast.makeText(register.this, "This userName/email already registered", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(register.this, "Email id already registered", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }).
@@ -122,7 +121,7 @@ public class register extends AppCompatActivity {
         progressDoalog.dismiss();
     }
 
-    private void addBoyToDataBase() {
+    private void addUserToDataBase() {
         final ProgressDialog progressDoalog = new ProgressDialog(register.this);
         progressDoalog.setMessage("Loading....");
         progressDoalog.setTitle("Please wait");
@@ -136,7 +135,7 @@ public class register extends AppCompatActivity {
                     public void onSuccess(DocumentReference documentReference) {
 
                         progressDoalog.dismiss();
-                        Toast.makeText(register.this, "User Registered successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(register.this, "User registered successfully", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getApplicationContext(), LOGIN.class));
                         finish();
                     }

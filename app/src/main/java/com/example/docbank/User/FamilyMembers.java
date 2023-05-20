@@ -60,8 +60,8 @@ public class FamilyMembers extends AppCompatActivity {
 
     private void Alert() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(FamilyMembers.this);
-        alertDialogBuilder.setMessage("what to do?");
-        alertDialogBuilder.setPositiveButton("Encrypt Document",
+        alertDialogBuilder.setMessage("Select an option?");
+        alertDialogBuilder.setPositiveButton("Upload Document",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
@@ -74,7 +74,7 @@ public class FamilyMembers extends AppCompatActivity {
                     }
                 });
 
-        alertDialogBuilder.setNegativeButton("Decode document", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setNegativeButton("Get Saved Documents", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 SharedPreferences ss=getSharedPreferences("uploadInfo",Context.MODE_PRIVATE);

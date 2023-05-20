@@ -9,7 +9,7 @@
         android:id="@+id/tt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Encrypted Documents"
+        android:text="Saved Documents"
         android:gravity="center"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
