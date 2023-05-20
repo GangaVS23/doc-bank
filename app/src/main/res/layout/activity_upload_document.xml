@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/regi2"
+    tools:context=".User.UploadDocument">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textColor="#fff"
+    android:textSize="25dp"
+    android:textStyle="bold"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:layout_marginTop="50dp"
+    android:text="Upload your Document"/>
+
+    <EditText
+        android:id="@+id/spinner2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="30dp"
+        android:textAllCaps="false"
+        android:hint="Enter Document name"
+        android:padding="10dp"
+        android:background="@drawable/ed3"
+        android:dropDownWidth="wrap_content" />
+    <EditText
+        android:id="@+id/passw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="30dp"
+        android:maxLength="4"
+        android:hint="Enter Number Password for  document"
+        android:padding="10dp"
+        android:inputType="numberPassword"
+        android:background="@drawable/ed3"
+        android:dropDownWidth="wrap_content" />
+    <Spinner
+        android:id="@+id/ftype"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="30dp"
+        android:padding="10dp"
+        android:background="@drawable/ed3"
+        android:dropDownWidth="wrap_content" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:drawableLeft="@drawable/ic_file_upload_black_24dp"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center"
+
+        android:text="upload Documents" />
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="#FFFF"
+        android:background="@drawable/shape"
+        android:layout_gravity="center"
+        android:text="Encrypt and Upload" />
+
+    <TextView
+        android:id="@+id/decodeimg"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
+</FrameLayout>
