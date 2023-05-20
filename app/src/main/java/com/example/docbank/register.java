@@ -31,7 +31,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 public class register extends AppCompatActivity {
     TextView a, b, c, d, e, f;
     Button Register;
-    EditText name, age, email, mobile, password;
+    EditText name, email, mobile, password;
 
 
     @Override
@@ -42,7 +42,6 @@ public class register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         Register = findViewById(R.id.button3);
         name = findViewById(R.id.editText3);
-        age = findViewById(R.id.editText4);
         email = findViewById(R.id.editText5);
         mobile = findViewById(R.id.editText6);
         password = findViewById(R.id.editText7);

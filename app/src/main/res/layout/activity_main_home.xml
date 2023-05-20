@@ -26,7 +26,7 @@
         android:textColor="#000"
         android:textSize="20dp"
         android:textStyle="bold"
-        android:text="Add family Member"
+        android:text="Add Family Member"
         app:layout_constraintEnd_toEndOf="@+id/afamily"
         app:layout_constraintStart_toStartOf="@+id/afamily"
         app:layout_constraintTop_toBottomOf="@+id/afamily" />
@@ -48,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Encrypted Documents"
+        android:text="Saved Documents"
         android:textColor="@color/black"
         android:textSize="20dp"
         android:textStyle="bold"
