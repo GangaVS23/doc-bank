@@ -79,7 +79,7 @@ public class LOGIN extends AppCompatActivity {
                                         try {
                                             if (queryDocumentSnapshots.getDocuments().size() == 0) {
 
-                                                Toast.makeText(LOGIN.this, "invalid  credentials", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(LOGIN.this, "Empty  credentials", Toast.LENGTH_SHORT).show();
                                             } else {
                                                 SharedPreferences sp = getSharedPreferences("logDetails", Context.MODE_PRIVATE);
                                                 SharedPreferences.Editor editor;

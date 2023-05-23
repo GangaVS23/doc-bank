@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Doc Bank"
+        android:text="DOC-BANK"
         android:layout_marginHorizontal="30dp"
         android:textSize="20dp"
         android:gravity="center"

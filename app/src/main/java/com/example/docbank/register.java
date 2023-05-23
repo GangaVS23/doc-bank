@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.docbank.User.UserModel;
@@ -33,6 +34,7 @@ public class register extends AppCompatActivity {
     Button Register;
     EditText name, email, mobile, password;
 
+    AlertDialog alert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class register extends AppCompatActivity {
         email = findViewById(R.id.editText5);
         mobile = findViewById(R.id.editText6);
         password = findViewById(R.id.editText7);
+
         email.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
 
@@ -55,12 +58,35 @@ public class register extends AppCompatActivity {
                 }
             }
 
+
+
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // other stuffs
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // other stuffs
+            }
+        });
+
+
+        password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (password.length() > 5)
+                {}
+                else {
+                    password.setError("Password should be atleast 6 in length.");                }
+
             }
         });
         Register.setOnClickListener(new View.OnClickListener() {

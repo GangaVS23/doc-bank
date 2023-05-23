@@ -46,6 +46,7 @@ EditText ph,otp,npass;
                 else{
                     if(otp.getText().toString().equals( Otp )){
                         btnVerify.setEnabled(false);
+                        btnVerify.setText("Verified");
                     }else{
                         Toast.makeText(ForgotActivity.this, "Otp does not match", Toast.LENGTH_SHORT).show();
                     }
@@ -75,7 +76,7 @@ EditText ph,otp,npass;
                                         try {
                                             if (queryDocumentSnapshots.getDocuments().size() == 0) {
 
-                                                Toast.makeText(ForgotActivity.this, "invalid  Phone Number", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(ForgotActivity.this, "Invalid  Phone Number", Toast.LENGTH_SHORT).show();
                                             } else {
 
                                                 FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -138,6 +139,7 @@ EditText ph,otp,npass;
                         Log.d("@@",Otp);
                         sendSMS(ph.getText().toString(), "Your login pin Reset Otp is:" + Otp);
                         btnSend.setEnabled(false);
+                        btnSend.setText("OTP Sent");
 
                     } catch (Exception e) {
                         //progressDoalog.dismiss();
