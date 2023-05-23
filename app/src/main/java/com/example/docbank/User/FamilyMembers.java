@@ -60,7 +60,7 @@ public class FamilyMembers extends AppCompatActivity {
 
     private void Alert() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(FamilyMembers.this);
-        alertDialogBuilder.setMessage("Select an option?");
+        alertDialogBuilder.setMessage("Choose an option");
         alertDialogBuilder.setPositiveButton("Upload Document",
                 new DialogInterface.OnClickListener() {
                     @Override

@@ -4,9 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -58,7 +56,7 @@ EditText ph,otp,npass;
             @Override
             public void onClick(View v) {
                 if(npass.getText().toString().isEmpty()){
-                   npass.setError("Enter new password");
+                    npass.setError("Enter new password");
                 }else{final ProgressDialog progressDoalog = new ProgressDialog(ForgotActivity.this);
                     progressDoalog.setMessage("Checking....");
                     progressDoalog.setTitle("Please wait");
@@ -123,7 +121,7 @@ EditText ph,otp,npass;
                 }
 
 
-                }
+            }
 
 
         });
@@ -136,7 +134,7 @@ EditText ph,otp,npass;
                 }else{
                     try {
                         Random rand = new Random();
-                         Otp = String.format("%04d", rand.nextInt(100000));
+                        Otp = String.format("%04d", rand.nextInt(100000));
                         Log.d("@@",Otp);
                         sendSMS(ph.getText().toString(), "Your login pin Reset Otp is:" + Otp);
                         btnSend.setEnabled(false);

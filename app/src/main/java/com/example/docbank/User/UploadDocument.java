@@ -163,7 +163,7 @@ Spinner sp;
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             if (queryDocumentSnapshots.getDocuments().isEmpty()) {
-                                addBoyToDataBase(UID);
+                                addUserToDataBase(UID);
                             } else {
                                 progressDoalog.dismiss();
                                 Toast.makeText(UploadDocument.this, "This Document already added by you", Toast.LENGTH_SHORT).show();
@@ -183,7 +183,7 @@ Spinner sp;
         progressDoalog.dismiss();
     }
 
-    private void addBoyToDataBase(String uid) {
+    private void addUserToDataBase(String uid) {
         SharedPreferences sp = getSharedPreferences("logDetails", Context.MODE_PRIVATE);
         final ProgressDialog progressDoalog = new ProgressDialog(UploadDocument.this);
         progressDoalog.setMessage("Loading....");
