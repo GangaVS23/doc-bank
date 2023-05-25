@@ -37,19 +37,11 @@ Button dwn,print;
                 photoPrinter.printBitmap("test print",bitmap);
             }
         });
-        dwn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent();
-                i.setAction(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(b.getString("dUrl")));
-                startActivity(Intent.createChooser(i, "Title"));
-            }
-        });
+
 
         byte[] decodedString = Base64.decode(b.getString("encdoc"), Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            dImg.setImageBitmap(decodedByte);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        dImg.setImageBitmap(decodedByte);
     }
     @Override
     public void onBackPressed() {

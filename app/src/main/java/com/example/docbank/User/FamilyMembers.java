@@ -45,7 +45,7 @@ public class FamilyMembers extends AppCompatActivity {
         oname = findViewById(R.id.oname);
         Oid = findViewById(R.id.oId);
         sp = getSharedPreferences("logDetails", Context.MODE_PRIVATE);
-        oname.setText(sp.getString("username", "") + "(Owner)");
+        oname.setText(sp.getString("username", "") + " (User) ");
         Oid.setText(sp.getString("userId", ""));
         oCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +122,7 @@ public class FamilyMembers extends AppCompatActivity {
                             progressDoalog.dismiss();
                         } else {
                             progressDoalog.dismiss();
-                            Toast.makeText(FamilyMembers.this, "No Members Added yet", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FamilyMembers.this, "No Family Members Added yet", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }).addOnFailureListener(new OnFailureListener() {

@@ -66,7 +66,7 @@ public class AddFamilyMember extends AppCompatActivity {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             if (queryDocumentSnapshots.getDocuments().isEmpty()) {
-                                addBoyToDataBase();
+                                addFMemberToDataBase();
                             } else {
                                 progressDoalog.dismiss();
                                 Toast.makeText(AddFamilyMember.this, "This Member already registered by you", Toast.LENGTH_SHORT).show();
@@ -86,7 +86,7 @@ public class AddFamilyMember extends AppCompatActivity {
         progressDoalog.dismiss();
     }
 
-    private void addBoyToDataBase() {
+    private void addFMemberToDataBase() {
         SharedPreferences sp = getSharedPreferences("logDetails", Context.MODE_PRIVATE);
 
         final ProgressDialog progressDoalog = new ProgressDialog(AddFamilyMember.this);
@@ -103,7 +103,7 @@ public class AddFamilyMember extends AppCompatActivity {
 
                         progressDoalog.dismiss();
                         Toast.makeText(AddFamilyMember.this, "Member Registered successfully", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(), AddFamilyMember.class));
+                        startActivity(new Intent(getApplicationContext(), MainHome.class));
                         finish();
                     }
                 }).

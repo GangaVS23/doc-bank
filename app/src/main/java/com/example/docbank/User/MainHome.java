@@ -51,9 +51,10 @@ ImageView afamily,doc;
 
             }
         });
-        alertbox.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+        alertbox.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 dialog.dismiss();
             }
         });

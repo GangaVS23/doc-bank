@@ -92,8 +92,8 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MyViewHold
 
     private void Alert(String mid, View v) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(a);
-        alertDialogBuilder.setMessage("what to do?");
-        alertDialogBuilder.setPositiveButton("Encrypt Document",
+        alertDialogBuilder.setMessage("Choose an option");
+        alertDialogBuilder.setPositiveButton("Upload Document",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
@@ -108,7 +108,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MyViewHold
                     }
                 });
 
-        alertDialogBuilder.setNegativeButton("Decode document", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setNegativeButton("Get saved documents", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 SharedPreferences ss=a.getSharedPreferences("uploadInfo",Context.MODE_PRIVATE);
@@ -121,7 +121,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MyViewHold
                 context.startActivity(i);
             }
         });
-        alertDialogBuilder.setNeutralButton("delete this member", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setNeutralButton("Delete this member", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 deleteMember(mid,v);

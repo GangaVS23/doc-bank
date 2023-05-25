@@ -58,31 +58,31 @@ public class UploadDocument extends AppCompatActivity {
     TextView decodeimg;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1, SELECTPDF = 2;
     private Bitmap bitmapProfile = null;
-    private int STORAGE_PERMISSION_CODE = 23;
-    boolean somePermissionsForeverDenied = false;
     private String userChosenTask;
-    String encodedImage = "", qrstring = "";
+    String encodedImage = "";
     int t1 = 0;
-    private static int RESULT_LOAD_IMAGE = 1;
-    int newWidth = 500;
+    int newWidth;
     String encodeFileToBase64Binary = null;
-    int newHeight = 500;
-
-    Matrix matrix;
-
-    Bitmap resizedBitmap, toDecodeString;
-
+    int newHeight;
+    Bitmap resizedBitmap;
     float scaleWidth;
     Uri filePath = null;
     float scaleHeight;
     String Ftype="";
-
     ByteArrayOutputStream outputStream;
-    public final static int QRcodeWidth = 500;
     private static final String IMAGE_DIRECTORY = "/QRcodeDemonuts";
-    Bitmap bitmap;
-String ftype[]={"ID Cards","Educational Documents","Others"};
-Spinner sp;
+    String ftype[]={"ID Cards","Educational Documents","Others"};
+    Spinner sp;
+
+//    private int STORAGE_PERMISSION_CODE = 23;
+//    String qrstring = "";
+//    boolean somePermissionsForeverDenied = false;
+//    Bitmap bitmap;
+//    public final static int QRcodeWidth = 500;
+//    Bitmap toDecodeString;
+//    Matrix matrix;
+//    private static int RESULT_LOAD_IMAGE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +110,8 @@ Spinner sp;
         Upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectImage();
+
+                selectFile();
             }
         });
         add.setOnClickListener(new View.OnClickListener() {
@@ -122,10 +123,10 @@ Spinner sp;
                 } else if (pass.getText().toString().isEmpty() || pass.getText().toString().length() < 4) {
                     pass.setError("Enter Document 4 digit password");
                 } else if (!Upload.getText().equals("uploaded")) {
-                    Toast.makeText(UploadDocument.this, "please take a picture", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UploadDocument.this, "Please upload the document", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.d("@@", encodeFileToBase64Binary);
-                    uploadDocuments();
+                    saveDocuments();//saves the encoded document that is uploaded in the firebase database
 
                 }
 
@@ -133,7 +134,7 @@ Spinner sp;
         });
     }
 
-    private void uploadDocuments() {
+    private void saveDocuments() {
         String UID;
         SharedPreferences ss = getSharedPreferences("uploadInfo", Context.MODE_PRIVATE);
         if (ss.getString("from", "").equals("member")) {
@@ -163,10 +164,10 @@ Spinner sp;
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             if (queryDocumentSnapshots.getDocuments().isEmpty()) {
-                                addUserToDataBase(UID);
+                                addDocumentToDataBase(UID);//adds document to database
                             } else {
                                 progressDoalog.dismiss();
-                                Toast.makeText(UploadDocument.this, "This Document already added by you", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UploadDocument.this, "This Document is already added by you", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }).
@@ -183,7 +184,7 @@ Spinner sp;
         progressDoalog.dismiss();
     }
 
-    private void addUserToDataBase(String uid) {
+    private void addDocumentToDataBase(String uid) {
         SharedPreferences sp = getSharedPreferences("logDetails", Context.MODE_PRIVATE);
         final ProgressDialog progressDoalog = new ProgressDialog(UploadDocument.this);
         progressDoalog.setMessage("Loading....");
@@ -191,6 +192,7 @@ Spinner sp;
         progressDoalog.setCancelable(false);
         progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDoalog.show();
+        //created model class for the document which is going to upload
         DocModel obj = new DocModel("", spinner.getText().toString(), pass.getText().toString(), docType, encodeFileToBase64Binary, uid, encodedImage,Ftype);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Documents").add(obj).
@@ -201,7 +203,7 @@ Spinner sp;
                         progressDoalog.dismiss();
                         Toast.makeText(UploadDocument.this, "Document saved successfully", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getApplicationContext(), UploadDocument.class));
-                        finish();
+                        finish();//returns to submitForm() which returns to saveDocuments()
                     }
                 }).
                 addOnFailureListener(new OnFailureListener() {
@@ -213,9 +215,8 @@ Spinner sp;
                 });
     }
 
-    private void selectImage() {
-        //final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
-        final CharSequence[] items = {"Take Photo", "Choose from Library", "Choose PDF", "Cancel"};
+    private void selectFile() {
+        final CharSequence[] items = {"Take Photo", "Choose image from Library", "Choose PDF", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Upload your documents");
         builder.setItems(items, new DialogInterface.OnClickListener() {
@@ -225,12 +226,12 @@ Spinner sp;
                     docType = "image";
                     userChosenTask = "Take Photo";
                     cameraIntent();
-                } else if (items[item].equals("Choose from Library")) {
-                    userChosenTask = "Choose from Library";
+                } else if (items[item].equals("Choose image from Library")) {
+                    userChosenTask = "Choose image from Library";
                     docType = "image";
                     galleryIntent();
                 } else if (items[item].equals("Choose PDF")) {
-                    userChosenTask = "choose PDF";
+                    userChosenTask = "Choose PDF";
                     docType = "pdf";
                     pdfIntent();
                 } else if (items[item].equals("Cancel")) {
@@ -274,31 +275,28 @@ Spinner sp;
         }
     }
 
-    @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data, int type) {
         Bitmap bm = null;
         if (data != null) {
             try {
                 if (type == 2) {
+                    //uploads pdf to the user side
                     bm = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-                    String path = saveImage(bm); //give read write permission
+                    String path = uploadpdf(bm); //returns absolute path of the uploaded document
+                    //give read write permission
                     File dir = Environment.getExternalStorageDirectory();
                     File yourFile = new File(dir, path);
-                    encodeFileToBase64Binary = encodeFileToBase64Binary(yourFile);
+                    encodeFileToBase64Binary = encodeFileToBase64Binary(yourFile);//encodes the pdf file uploaded
                     Upload.setText("uploaded");
                     Log.d("@@gallary pdf", encodeFileToBase64Binary + "");
                     Uri newFile = data.getData();
-                    uploadImage(newFile);
+                    uploadPdf(newFile);//file encoded and uploaded to user side
                 } else if (type == 1) {
                     bm = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-                    int nh = (int) (bm.getHeight() * (512.0 / bm.getWidth()));
-                    Bitmap scaled = Bitmap.createScaledBitmap(bm, 102, nh, true);
-                    reZize(bm);
+ //                   int nh = (int) (bm.getHeight() * (512.0 / bm.getWidth()));
+//                    Bitmap scaled = Bitmap.createScaledBitmap(bm, 102, nh, true);
+                    reZize(bm);//resizes image
                     Upload.setText("uploaded");
-//                    filePath = getImageUri(getApplicationContext(), bm);
-//                    uploadImage(filePath);
-
-                   // Log.d("@@gallary image", encodeFileToBase64Binary + "");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -308,15 +306,18 @@ Spinner sp;
     void reZize(Bitmap bp){
         int width = bp.getWidth();
         int height = bp.getHeight();
+        newWidth=width/5;
+        newHeight=height/5;
         Matrix matrix = new Matrix();
         scaleWidth = ((float) newWidth) / width;
         scaleHeight = ((float) newHeight) / height;
         matrix.postScale(scaleWidth, scaleHeight);
+
         resizedBitmap = Bitmap.createBitmap(bp, 0, 0, width, height, matrix, true);
         outputStream = new ByteArrayOutputStream();
         resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
         if (resizedBitmap != null) {
-            encodeFileToBase64Binary = getStringImage(resizedBitmap);
+            encodeFileToBase64Binary = getStringImage(resizedBitmap);//returns to onSelectFromGalleryResult
         }
     }
     private void onCaptureImageResult(Intent data) {
@@ -356,11 +357,11 @@ Spinner sp;
         byte[] imageBytes = baos.toByteArray();
         encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         Upload.setText("uploaded");
-        return encodedImage;
+        return encodedImage;//1..returns to reZize  2..returns to onCaptureImageResult
     }
 
     private static String encodeFileToBase64Binary(File fileName) throws IOException {
-        int size = (int) fileName.length();
+        int size = (int) fileName.length();//length of the file name
         byte[] bytes = new byte[size];
         try {
             BufferedInputStream buf = new BufferedInputStream(new FileInputStream(fileName));
@@ -373,15 +374,15 @@ Spinner sp;
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        String encoded = Base64.encodeToString(bytes, Base64.NO_WRAP);
-        return encoded;
+
+        String encoded = Base64.encodeToString(bytes, Base64.NO_WRAP);//encodes pdf file to base64 binary
+        return encoded;//returns encoded file to onSelectFromGalleryResult of type 2 that is pdf
     }
 
-    public String saveImage(Bitmap myBitmap) {
+    public String uploadpdf(Bitmap myBitmap) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         //   myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File wallpaperDirectory = new File(
-                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+        File wallpaperDirectory = new File(Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
         // have the object build the directory structure, if needed.
 
         if (!wallpaperDirectory.exists()) {
@@ -409,6 +410,60 @@ Spinner sp;
 
     }
 
+
+
+    public static class GetFilePathAndStatus {
+        public boolean filStatus;
+        public String filePath;
+
+    }
+
+
+    private void uploadPdf(Uri path) {
+        Log.d("## filepath: inside", path + "");
+        if (path != null) {
+            final ProgressDialog progressDoalog = new ProgressDialog(UploadDocument.this);
+            progressDoalog.setMessage("Encoding and Uploading....");
+            progressDoalog.setTitle("Please wait");
+            progressDoalog.setCancelable(true);
+            progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDoalog.show();
+            Log.d("## filepath:", path + "");
+
+
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageReference = storage.getReference();
+            storageReference = storageReference.child("encrypted_Images/" + UUID.randomUUID().toString());
+            UploadTask uploadTask = storageReference.putFile(path);
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    taskSnapshot.getStorage().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            String uploadedImageUrl = task.getResult().toString();
+                            Log.d("##", uploadedImageUrl);
+                            encodedImage = uploadedImageUrl;//url of the encoded pdf
+                            progressDoalog.dismiss();
+                        }
+                    });
+                }
+            });
+
+        } else {
+            Toast.makeText(UploadDocument.this, "Please Upload an Image", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    //.........................................................................
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
     public static GetFilePathAndStatus getFileFromBase64AndSaveInSDCard(String base64, String filename, String extension) {
         GetFilePathAndStatus getFilePathAndStatus = new GetFilePathAndStatus();
         try {
@@ -428,7 +483,6 @@ Spinner sp;
             return getFilePathAndStatus;
         }
     }
-
     public static String getReportPath(String filename, String extension) {
         File file = new File(Environment.getExternalStorageDirectory().getPath(), "ParentFolder/Report");
         if (!file.exists()) {
@@ -437,91 +491,5 @@ Spinner sp;
         String uriSting = (file.getAbsolutePath() + "/" + filename + "." + extension);
         return uriSting;
 
-    }
-
-    public static class GetFilePathAndStatus {
-        public boolean filStatus;
-        public String filePath;
-
-    }
-
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.PNG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
-    }
-
-    private void uploadImage(Uri path) {
-        Log.d("## filepath: inside", path + "");
-        if (path != null) {
-            final ProgressDialog progressDoalog = new ProgressDialog(UploadDocument.this);
-            progressDoalog.setMessage("Encrypting....");
-            progressDoalog.setTitle("Please wait");
-            progressDoalog.setCancelable(true);
-            progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDoalog.show();
-            Log.d("## filepath:", path + "");
-
-//            final String timestamp = "" + System.currentTimeMillis();
-//            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-//            final String messagePushID = timestamp;
-//            Toast.makeText(UploadDocument.this, path.toString(), Toast.LENGTH_SHORT).show();
-//
-//            // Here we are uploading the pdf in firebase storage with the name of current time
-//            final StorageReference filepath = storageReference.child(messagePushID + "." + "pdf");
-//            Toast.makeText(UploadDocument.this, filepath.getName(), Toast.LENGTH_SHORT).show();
-//            filepath.putFile(path).continueWithTask(new Continuation() {
-//                @Override
-//                public Object then(@NonNull Task task) throws Exception {
-//                    if (!task.isSuccessful()) {
-//                        throw task.getException();
-//                    }
-//                    return filepath.getDownloadUrl();
-//                }
-//            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-//                @Override
-//                public void onComplete(@NonNull Task<Uri> task) {
-//                    if (task.isSuccessful()) {
-//                        progressDoalog.dismiss();
-//                        // After uploading is done it progress
-//                        // dialog box will be dismissed
-//                      //  dialog.dismiss();
-//                        Uri uri = task.getResult();
-//                        String myurl;
-//                        myurl = uri.toString();
-//                        Toast.makeText(UploadDocument.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
-//                    } else {
-//                        progressDoalog.dismiss();
-//                        //dialog.dismiss();
-//                        Toast.makeText(UploadDocument.this, "UploadedFailed", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            });
-
-
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference storageReference = storage.getReference();
-            storageReference = storageReference.child("encrypted_Images/" + UUID.randomUUID().toString());
-            UploadTask uploadTask = storageReference.putFile(path);
-            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    taskSnapshot.getStorage().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Uri> task) {
-                            String uploadedImageUrl = task.getResult().toString();
-                            Log.d("##", uploadedImageUrl);
-                            encodedImage = uploadedImageUrl;
-                            progressDoalog.dismiss();
-                        }
-                    });
-                }
-            });
-
-        } else {
-            Toast.makeText(UploadDocument.this, "Please Upload an Image", Toast.LENGTH_SHORT).show();
-
-        }
     }
 }

@@ -13,7 +13,7 @@
     android:textStyle="bold"
     android:layout_marginHorizontal="30dp"
     android:textSize="20dp"
-    android:layout_marginTop="70dp"
+    android:layout_marginTop="10dp"
     android:id="@+id/ee"
     android:textColor="@color/white"
     app:layout_constraintStart_toStartOf="parent"
@@ -35,15 +35,20 @@
         android:id="@+id/print"
         android:text="Convert to pdf and Print"
         android:layout_marginEnd="16dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toStartOf="@+id/dbtn"
         app:layout_constraintTop_toBottomOf="@+id/ee"/>
 
 
     <ImageView
         android:id="@+id/dImg"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="600dp"
         app:srcCompat="@drawable/doc"
+        android:maxHeight="400dp"
+        android:adjustViewBounds="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_marginTop="10dp"
         android:background="@drawable/ed"
         app:layout_constraintStart_toStartOf="parent"

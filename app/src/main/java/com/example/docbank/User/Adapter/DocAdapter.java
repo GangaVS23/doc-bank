@@ -26,6 +26,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.docbank.LOGIN;
 import com.example.docbank.R;
 import com.example.docbank.User.DecryptDocuments;
 import com.example.docbank.User.DecryptedDocView;
@@ -147,6 +148,7 @@ public class DocAdapter extends RecyclerView.Adapter<DocAdapter.MyViewHolder> im
                         } else {
                             Intent i = new Intent();
                             i.setAction(Intent.ACTION_VIEW);
+                            Toast.makeText(context, "See the latest downloaded document", Toast.LENGTH_LONG).show();
                             i.setData(Uri.parse(downloadUrl));
                             a.startActivity(Intent.createChooser(i, "Title"));
                         }
@@ -166,6 +168,7 @@ public class DocAdapter extends RecyclerView.Adapter<DocAdapter.MyViewHolder> im
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
+
                         deleteAccount(docId, v);
                     }
                 });
@@ -183,7 +186,7 @@ public class DocAdapter extends RecyclerView.Adapter<DocAdapter.MyViewHolder> im
     }
     private void Alert3(String docId, View v) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(a);
-        alertDialogBuilder.setMessage("Are you forgot your password?do you wish to upadte your password for this document?");
+        alertDialogBuilder.setMessage("Forgot password?");
         alertDialogBuilder.setPositiveButton("Yes",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -209,7 +212,7 @@ public class DocAdapter extends RecyclerView.Adapter<DocAdapter.MyViewHolder> im
                                                     @Override
                                                     public void onSuccess(Void unused) {
                                                         Toast.makeText(a, "Password Updated successfully", Toast.LENGTH_SHORT).show();
-                                                        Intent i = new Intent(context, DecryptDocuments.class);
+                                                        Intent i = new Intent(context, LOGIN.class);
                                                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                         context.startActivity(i);
                                                     }
@@ -245,7 +248,6 @@ public class DocAdapter extends RecyclerView.Adapter<DocAdapter.MyViewHolder> im
     }
 
     private void deleteAccount(String uID, View v) {
-        //Log.d("@", "showData: Called")
 
         final ProgressDialog progressDoalog = new ProgressDialog(v.getRootView().getContext());
         progressDoalog.setMessage("Loading....");

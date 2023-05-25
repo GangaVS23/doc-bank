@@ -38,14 +38,14 @@ String type=null;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_folder);
-        String UID;
+        //String UID;
         SharedPreferences ss = getSharedPreferences("uploadInfo", Context.MODE_PRIVATE);
         if (ss.getString("from", "").equals("member")) {
-            UID = ss.getString("mId", "");
+            //UID = ss.getString("mId", "");
             type="member";
         } else {
             SharedPreferences sp = getSharedPreferences("logDetails", Context.MODE_PRIVATE);
-            UID = sp.getString("userId", "");
+          //  UID = sp.getString("userId", "");
             type="owner";
         }
         recyclerView = findViewById(R.id.rvdoc);
@@ -65,7 +65,7 @@ String type=null;
 
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-      //  showData(UID);
+
     }
 
 

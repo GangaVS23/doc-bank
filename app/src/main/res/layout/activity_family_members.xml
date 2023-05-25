@@ -45,6 +45,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="#5C5959"
                     android:text="Relation"
+                    android:visibility="gone"
                     android:layout_marginTop="10dp"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -52,9 +53,10 @@
                 <TextView
                     android:id="@+id/oname"
                     android:layout_width="match_parent"
+                    android:layout_marginTop="25dp"
                     android:layout_height="wrap_content"
                     android:textColor="#000"
-                    android:text="You(Owner)"
+                    android:text="You"
                     android:textSize="15sp"
                     android:textStyle="bold" />
                 <TextView
@@ -62,6 +64,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="#5C5959"
                     android:text="MemberId"
+                    android:visibility="gone"
                     android:layout_marginTop="10dp"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -72,6 +75,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="#000"
                     android:text="222222"
+                    android:visibility="gone"
                     android:textSize="15sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -83,17 +87,12 @@
 
                 <ImageView
                     android:layout_width="100dp"
-                    android:layout_height="120dp"
+                    android:layout_height="100dp"
                     android:padding="10dp"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_person_black_24dp"
                     app:tint="@color/colorAccent" />
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/btnpay"
-                    android:visibility="gone"
-                    android:text="pay"/>
+
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
